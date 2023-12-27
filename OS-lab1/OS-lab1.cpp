@@ -22,6 +22,7 @@ void producer() {
     eventSent = true;
     
     cv.notify_one();
+    lock.unlock();
 }
 
 void consumer() {
@@ -35,6 +36,7 @@ void consumer() {
     eventSent = false;
 
     cv.notify_one();
+    lock.unlock();
 }
 
 int main() {
@@ -43,7 +45,6 @@ int main() {
     thread producerThread(producer);
     thread consumerThread(consumer);
 
-    producerThread.join();
     consumerThread.join();
 
     return 0;
